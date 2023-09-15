@@ -12,10 +12,10 @@ public class GamepadHenry extends OpMode {
         telemetry.addData("Left Stick x", gamepad1.left_stick_x);
         telemetry.addData("Left stick y", gamepad1.left_stick_y);
         if(gamepad1.left_stick_y < 0){
-            telemetry.addData("Left Stick y", "is negative")
+            telemetry.addData("Left Stick y", "is negative");
         }
         if(gamepad1.left_stick_x < 0){
-            telemetry.addData("Left Stick x", "is negative")
+            telemetry.addData("Left Stick x", "is negative");
         }
         telemetry.addData("Right Stick x", gamepad1.right_stick_x);
         telemetry.addData("Right stick y", gamepad1.right_stick_y);

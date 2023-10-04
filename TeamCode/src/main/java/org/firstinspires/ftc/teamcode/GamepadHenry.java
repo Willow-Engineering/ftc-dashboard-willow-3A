@@ -26,6 +26,6 @@ public class GamepadHenry extends OpMode {
         telemetry.update();
 
         telemetry.addData("Difference between Left y and Right y",gamepad1.left_stick_y - gamepad1.right_stick_y);
-        telemetry.addData("Sum of Left and Right Trigger",gamepad1.left_trigger + gamepad1.right_trigger)
+        telemetry.addData("Sum of Left and Right Trigger",gamepad1.left_trigger + gamepad1.right_trigger);
     }
 }

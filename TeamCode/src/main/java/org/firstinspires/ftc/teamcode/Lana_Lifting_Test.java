@@ -29,10 +29,14 @@
 
 package org.firstinspires.ftc.teamcode;
 
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.config.Config;
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
@@ -51,22 +55,31 @@ import com.qualcomm.robotcore.util.Range;
  */
 
 @TeleOp(name="Lana_Lifting_Test")
+@Config
 //@Disabled
 public class Lana_Lifting_Test extends LinearOpMode {
 
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
-    private DcMotor lift = null;
+    private DcMotorEx lift = null;
+
+    public static double velocity=200;
+    public static int height=300;
 
     @Override
     public void runOpMode() {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
+        FtcDashboard dashboard = FtcDashboard.getInstance();
+        telemetry = new MultipleTelemetry(telemetry, dashboard.getTelemetry());
 
         // Initialize the hardware variables. Note that the strings used here as parameters
         // to 'get' must correspond to the names assigned during the robot configuration
         // step (using the FTC Robot Controller app on the phone).
-        lift  = hardwareMap.get(DcMotor.class, "lift");
+        lift  = hardwareMap.get(DcMotorEx.class, "lift");
+
+        // Reset the encoder during initialization
+        lift.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
 
         // Wait for the game to start (driver presses PLAY)
         waitForStart();
@@ -88,17 +101,29 @@ public class Lana_Lifting_Test extends LinearOpMode {
 
 
             // Send calculated power to lifter
-            if(gamepad1.a) {
-                lift.setPower(1);
+            if(gamepad1.b) {
+                // Set the motor's target position to 300 ticks
+                lift.setTargetPosition(height);
+
+                // Switch to RUN_TO_POSITION mode
+                lift.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+
+                // Start the motor moving by setting the max velocity to 200 ticks per second
+                lift.setVelocity(velocity);
             }
 
-            if(gamepad1.b) {
-                lift.setPower(-1);
+            if(gamepad1.a) {
+                lift.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
+                lift.setPower(1);
             }
             // Turns motor off
             else{
                 lift.setPower(0);
             }
+            telemetry.addData("velocity", lift.getVelocity());
+            telemetry.addData("position", lift.getCurrentPosition());
+            telemetry.addData("is at target", !lift.isBusy());
+            telemetry.update();
             // Show the elapsed game time and wheel power.
             //telemetry.addData("Status", "Run Time: " + runtime.toString());
            // telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);

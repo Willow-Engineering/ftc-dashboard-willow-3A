@@ -63,8 +63,8 @@ public class Lana_Lifting_Test extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
     private DcMotorEx lift = null;
 
-    public static double velocity=200;
-    public static int extension=300;
+    public static double velocity=500;
+    public static int extension=1500;
     public static int retraction=0;
 
     @Override

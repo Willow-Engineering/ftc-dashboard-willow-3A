@@ -33,7 +33,7 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;,
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -64,7 +64,8 @@ public class Lana_Lifting_Test extends LinearOpMode {
     private DcMotorEx lift = null;
 
     public static double velocity=200;
-    public static int height=300;
+    public static int extension=300;
+    public static int retraction=0;
 
     @Override
     public void runOpMode() {
@@ -101,9 +102,9 @@ public class Lana_Lifting_Test extends LinearOpMode {
 
 
             // Send calculated power to lifter
-            if(gamepad1.b) {
+            if(gamepad1.a) {
                 // Set the motor's target position to 300 ticks
-                lift.setTargetPosition(height);
+                lift.setTargetPosition(extension);
 
                 // Switch to RUN_TO_POSITION mode
                 lift.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
@@ -112,13 +113,15 @@ public class Lana_Lifting_Test extends LinearOpMode {
                 lift.setVelocity(velocity);
             }
 
-            if(gamepad1.a) {
-                lift.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
-                lift.setPower(1);
-            }
-            // Turns motor off
-            else{
-                lift.setPower(0);
+            if(gamepad1.b) {
+                // Set the motor's target position to 300 ticks
+                lift.setTargetPosition(retraction);
+
+                // Switch to RUN_TO_POSITION mode
+                lift.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+
+                // Start the motor moving by setting the max velocity to 200 ticks per second
+                lift.setVelocity(velocity);
             }
             telemetry.addData("velocity", lift.getVelocity());
             telemetry.addData("position", lift.getCurrentPosition());

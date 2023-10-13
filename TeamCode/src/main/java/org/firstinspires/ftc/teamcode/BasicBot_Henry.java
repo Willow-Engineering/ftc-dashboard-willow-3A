@@ -27,12 +27,14 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.robotcontroller.external.samples;
+package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode.disabled;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
@@ -115,12 +117,12 @@ public class BasicBot_Henry extends LinearOpMode {
             if(gamepad1.dpad_up){
                 armMotor.setPower(0.7);
             }else{
-                armMotor.setPower(0.0)
+                armMotor.setPower(0.0);
             }
             if(gamepad1.dpad_down){
                 armMotor.setPower(-0.4);
             }else{
-                armMotor.setPower(0.0)
+                armMotor.setPower(0.0);
             }
             if (gamepad1.left_trigger) {
                 rightServo.setPosition(30);

@@ -31,6 +31,8 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.acmerobotics.dashboard.FtcDashboard;
+import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -53,7 +55,8 @@ import com.acmerobotics.dashboard.config.Config;
 // * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
 // */
 //
-@TeleOp(name="BasicBot_Henry")
+@TeleOp(name="Gerald_Henry")
+@Config
 //@Disabled
 public class BasicBot_Henry extends LinearOpMode {
 
@@ -64,15 +67,16 @@ public class BasicBot_Henry extends LinearOpMode {
     private DcMotorEx armMotor = null;
     private Servo leftServo = null;
     private Servo rightServo = null;
-    public static int closeLeftClaw = 30;
-    public static int closeRightClaw = -30;
-    public static int openLeftClaw = -30;
-    public static int openRightClaw = 30;
+    public static int closeLeftClaw = 40;
+    public static int closeRightClaw = -40;
+    public static int openLeftClaw = -70;
+    public static int openRightClaw = 70;
+    public static int armUp = -650;
+    public static int armDown = -100;
 
 
 
     @Override
-    @Config
     public void runOpMode() {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
@@ -85,12 +89,15 @@ public class BasicBot_Henry extends LinearOpMode {
         armMotor = hardwareMap.get(DcMotorEx.class, "arm_motor");
         leftServo = hardwareMap.get(Servo.class, "left_servo");
         rightServo = hardwareMap.get(Servo.class, "right_servo");
+
+        FtcDashboard dashboard = FtcDashboard.getInstance();
+        telemetry = new MultipleTelemetry(telemetry, dashboard.getTelemetry());
 //
 //        // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
 //        // Pushing the left stick forward MUST make robot go forward. So adjust these two lines based on your first test drive.
 //        // Note: The settings here assume direct drive on left and right wheels.  Gear Reduction or 90 Deg drives may require direction flips
-//        leftDrive.setDirection(DcMotor.Direction.REVERSE);
-//        rightDrive.setDirection(DcMotor.Direction.FORWARD);
+        leftDrive.setDirection(DcMotor.Direction.FORWARD);
+       rightDrive.setDirection(DcMotor.Direction.REVERSE);
 //
 //        // Wait for the game to start (driver presses PLAY)
        waitForStart();
@@ -124,54 +131,27 @@ public class BasicBot_Henry extends LinearOpMode {
             leftDrive.setPower(leftPower);
             rightDrive.setPower(rightPower);
 //
-           // if(gamepad1.dpad_up){
-           //     armMotor.setPower(0.7);
-           // }else{
-           //     armMotor.setPower(0.0);
-           // }
-           // if(gamepad1.dpad_down){
-           //     armMotor.setPower(-0.4);
-           // }else{
-           //     armMotor.setPower(0.0);
-            //}
-            if (gamepad1.left_trigger) {
+           //claw
+            if (gamepad1.left_bumper) {
                 rightServo.setPosition(openRightClaw);
                 leftServo.setPosition(openLeftClaw);
             }
-            if (gamepad1.right_trigger) {
+            if (gamepad1.right_bumper) {
                 rightServo.setPosition(closeRightClaw);
                 leftServo.setPosition(closeLeftClaw);
             }
-            //Limit Switch
-            //if (touch.getState()){
-        //    //Touch Sensor is not pressed
-        //     arm.setPower(0.2);
-        //
-        //} else {
-        //    //Touch Sensor is pressed
-        //    arm.setPower(0);
-        //                        }
 
-            //Encoder
+
+            //arm
             telemetry.addData("Encoder value", armMotor.getCurrentPosition());
             if(gamepad1.dpad_up){
-                // Set the motor's target position to 300 ticks
-                armMotor.setTargetPosition(-600);
-
-                // Switch to RUN_TO_POSITION mode
+                armMotor.setTargetPosition(armUp);
                 armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-                // Start the motor moving by setting the max velocity to 200 ticks per second
                 armMotor.setVelocity(200);
             }
             if(gamepad1.dpad_down){
-                // Set the motor's target position to 300 ticks
-                armMotor.setTargetPosition(14);
-
-                // Switch to RUN_TO_POSITION mode
+                armMotor.setTargetPosition(armDown);
                 armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-                // Start the motor moving by setting the max velocity to 200 ticks per second
                 armMotor.setVelocity(200);
             }
 
@@ -179,6 +159,8 @@ public class BasicBot_Henry extends LinearOpMode {
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime.toString());
             telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
+            telemetry.addData("Status", "Waitign for motor to reach its target");
+            telemetry.addData("Arm Position", armMotor.getCurrentPosition());
             telemetry.update();
         }
 

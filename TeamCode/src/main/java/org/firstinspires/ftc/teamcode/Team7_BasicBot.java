@@ -1,78 +1,25 @@
-///* Copyright (c) 2017 FIRST. All rights reserved.
-// *
-// * Redistribution and use in source and binary forms, with or without modification,
-// * are permitted (subject to the limitations in the disclaimer below) provided that
-// * the following conditions are met:
-// *
-// * Redistributions of source code must retain the above copyright notice, this list
-// * of conditions and the following disclaimer.
-// *
-// * Redistributions in binary form must reproduce the above copyright notice, this
-// * list of conditions and the following disclaimer in the documentation and/or
-// * other materials provided with the distribution.
-// *
-// * Neither the name of FIRST nor the names of its contributors may be used to endorse or
-// * promote products derived from this software without specific prior written permission.
-// *
-// * NO EXPRESS OR IMPLIED LICENSES TO ANY PARTY'S PATENT RIGHTS ARE GRANTED BY THIS
-// * LICENSE. THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-// * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
-// * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
-// * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE
-// * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-// * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
-// * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
-// * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-// * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-// * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-// */
-//
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
-import com.acmerobotics.dashboard.config.Config;
-//
-//
-///**
-// * This file contains an minimal example of a Linear "OpMode". An OpMode is a 'program' that runs in either
-// * the autonomous or the teleop period of an FTC match. The names of OpModes appear on the menu
-// * of the FTC Driver Station. When a selection is made from the menu, the corresponding OpMode
-// * class is instantiated on the Robot Controller and executed.
-// *
-// * This particular OpMode just executes a basic Tank Drive Teleop for a two wheeled robot
-// * It includes all the skeletal structure that all linear OpModes contain.
-// *
-// * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
-// * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
-// */
-//
-@TeleOp(name="BasicBot_Henry")
+@TeleOp(name="Team7_BasicBot")
 //@Disabled
-public class BasicBot_Henry extends LinearOpMode {
+public class Team7_BasicBot extends LinearOpMode {
 
-//    // Declare OpMode members.
- private ElapsedTime runtime = new ElapsedTime();
+    //    // Declare OpMode members.
+    private ElapsedTime runtime = new ElapsedTime();
     private DcMotor leftDrive = null;
     private DcMotor rightDrive = null;
     private DcMotorEx armMotor = null;
     private Servo leftServo = null;
     private Servo rightServo = null;
-    public static int closeLeftClaw = 30;
-    public static int closeRightClaw = -30;
-    public static int openLeftClaw = -30;
-    public static int openRightClaw = 30;
-
-
-
+    //
     @Override
-    @Config
     public void runOpMode() {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
@@ -93,7 +40,7 @@ public class BasicBot_Henry extends LinearOpMode {
 //        rightDrive.setDirection(DcMotor.Direction.FORWARD);
 //
 //        // Wait for the game to start (driver presses PLAY)
-       waitForStart();
+        waitForStart();
         runtime.reset();
         armMotor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
 
@@ -117,46 +64,46 @@ public class BasicBot_Henry extends LinearOpMode {
 //
 //            // Tank Mode uses one stick to control each wheel.
 //            // - This requires no math, but it is hard to drive forward slowly and keep straight.
-             leftPower  = -gamepad1.left_stick_y ;
-             rightPower = -gamepad1.right_stick_y ;
+            leftPower  = -gamepad1.left_stick_y ;
+            rightPower = -gamepad1.right_stick_y ;
 //
 //            // Send calculated power to wheels
             leftDrive.setPower(leftPower);
             rightDrive.setPower(rightPower);
 //
-           // if(gamepad1.dpad_up){
-           //     armMotor.setPower(0.7);
-           // }else{
-           //     armMotor.setPower(0.0);
-           // }
-           // if(gamepad1.dpad_down){
-           //     armMotor.setPower(-0.4);
-           // }else{
-           //     armMotor.setPower(0.0);
+            // if(gamepad1.dpad_up){
+            //     armMotor.setPower(0.7);
+            // }else{
+            //     armMotor.setPower(0.0);
+            // }
+            // if(gamepad1.dpad_down){
+            //     armMotor.setPower(-0.4);
+            // }else{
+            //     armMotor.setPower(0.0);
             //}
-            if (gamepad1.left_trigger) {
-                rightServo.setPosition(openRightClaw);
-                leftServo.setPosition(openLeftClaw);
-            }
-            if (gamepad1.right_trigger) {
-                rightServo.setPosition(closeRightClaw);
-                leftServo.setPosition(closeLeftClaw);
-            }
+//            if (gamepad1.left_trigger) {
+//                rightServo.setPosition(30);
+//                leftServo.setPosition(-30);
+//            }
+//            if (gamepad1.right_trigger) {
+//                rightServo.setPosition(-30);
+//                leftServo.setPosition(30);
+//            }
             //Limit Switch
             //if (touch.getState()){
-        //    //Touch Sensor is not pressed
-        //     arm.setPower(0.2);
-        //
-        //} else {
-        //    //Touch Sensor is pressed
-        //    arm.setPower(0);
-        //                        }
+            //    //Touch Sensor is not pressed
+            //     arm.setPower(0.2);
+            //
+            //} else {
+            //    //Touch Sensor is pressed
+            //    arm.setPower(0);
+            //                        }
 
             //Encoder
             telemetry.addData("Encoder value", armMotor.getCurrentPosition());
             if(gamepad1.dpad_up){
                 // Set the motor's target position to 300 ticks
-                armMotor.setTargetPosition(-600);
+                armMotor.setTargetPosition(300);
 
                 // Switch to RUN_TO_POSITION mode
                 armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -166,7 +113,7 @@ public class BasicBot_Henry extends LinearOpMode {
             }
             if(gamepad1.dpad_down){
                 // Set the motor's target position to 300 ticks
-                armMotor.setTargetPosition(14);
+                armMotor.setTargetPosition(0);
 
                 // Switch to RUN_TO_POSITION mode
                 armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
